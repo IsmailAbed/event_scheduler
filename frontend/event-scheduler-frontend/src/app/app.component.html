@@ -1,0 +1,55 @@
+<div class="event-card">
+  <h2>Event Scheduler</h2>
+
+  <form (submit)="saveEvent(); $event.preventDefault()">
+    <div class="form-grid">
+      <div>
+        <label for="title">Title</label>
+        <input id="title" [(ngModel)]="event.title" name="title" placeholder="Title" required />
+      </div>
+
+      <div>
+        <label for="location">Location</label>
+        <input id="location" [(ngModel)]="event.location" name="location" placeholder="Location" required />
+      </div>
+
+      <div>
+        <label for="dateTime">Date & Time</label>
+        <input id="dateTime" [(ngModel)]="event.dateTime" name="dateTime" type="datetime-local" required />
+      </div>
+
+      <div>
+        <label for="status">Status</label>
+        <select id="status" [(ngModel)]="event.status" name="status">
+          <option value="upcoming">Upcoming</option>
+          <option value="attending">Attending</option>
+          <option value="maybe">Maybe</option>
+          <option value="declined">Declined</option>
+        </select>
+      </div>
+
+      <div style="grid-column: 1 / -1">
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="event.description" name="description" placeholder="Description" required></textarea>
+      </div>
+    </div>
+
+    <div class="submit-button">
+      <button type="submit">Save</button>
+      <button type="button" (click)="summarize()">Summarize</button>
+    </div>
+  </form>
+
+  <div *ngIf="summary" class="summary">{{ summary }}</div>
+
+  <ul>
+    <li *ngFor="let e of events">
+      <strong>{{ e.title }}</strong> | {{ e.status }}
+      <p>{{ e.description }}</p>
+      <p><em>{{ e.location }}</em></p>
+      <p><small>{{ e.dateTime | date: 'short' }}</small></p>
+      <button (click)="editEvent(e)">Edit</button>
+      <button (click)="deleteEvent(e.id!)">Delete</button>
+    </li>
+  </ul>
+</div>
